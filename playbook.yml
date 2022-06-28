@@ -1,0 +1,55 @@
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: APT Update
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600 
+    - name: Ensure NTP
+      apt: name=ntp state=latest
+    - name: NTP is running
+      service: name=ntp state=started enabled=yes
+    - name: Install Packages
+      apt:
+        name:
+          - screen
+          - vim
+          - tzdata
+          - texinfo
+          - wget
+          - gdisk
+          - python3
+          - python3-pip
+          - file
+          - zstd
+          - liblz4-tool
+          - net-tools
+          - chrpath
+          - diffstat
+          - gawk
+          - meld
+          - minicom
+          - libusb-1.0-0
+          - cmake
+          - libssl-dev
+          - libncurses5
+          - libncurses5:i386
+          - fdisk
+          - python2.7-dev
+        state: latest
+    - git_config:
+        name: user.email
+        scope: global
+        value: "jrareas@gmail.com"
+    - git_config:
+        name: user.name
+        scope: global
+        value: "Jose Areas"
+    - name: Install Extra Dev tools
+      apt:
+        name:
+          - default-jre
+          - snapd
+    - name: Install Eclipse
+      snap:
+        name: eclipse
+        classic: yes
+
